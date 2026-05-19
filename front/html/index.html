@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Calculadora</title>
+    <link rel="stylesheet" href="../css/s.css">
+</head>
+<body>
+
+<div class="container">
+
+    <h1>Calculadora</h1>
+
+    <input type="number" id="a">
+
+    <select id="operation">
+        <option value="+">+</option>
+        <option value="-">-</option>
+        <option value="*">*</option>
+        <option value="%">%</option>
+    </select>
+
+    <input type="number" id="b">
+
+    <button onclick="calculate()">
+        Calcular
+    </button>
+
+    <h2 id="result"></h2>
+
+    <button onclick="loadHistory()">
+        Atualizar Histórico
+    </button>
+
+    <ul id="history"></ul>
+
+</div>
+
+<script src="../js/s.js"></script>
+
+</body>
+</html>
