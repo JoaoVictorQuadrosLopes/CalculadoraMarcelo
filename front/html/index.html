@@ -8,32 +8,37 @@
 
 <div class="container">
 
-    <h1>Calculadora</h1>
+    <h2>Calculadora</h2>
 
-    <input type="number" id="a">
+    <label>Primeiro número</label>
+    <input type="number" id="a" placeholder="Digite o primeiro número">
 
+    <label>Operação</label>
     <select id="operation">
-        <option value="+">+</option>
-        <option value="-">-</option>
-        <option value="*">*</option>
-        <option value="%">%</option>
+        <option value="+">Somar (+)</option>
+        <option value="-">Subtrair (-)</option>
+        <option value="*">Multiplicar (*)</option>
+        <option value="/">Dividir (/)</option>
     </select>
 
-    <input type="number" id="b">
+    <label>Segundo número</label>
+    <input type="number" id="b" placeholder="Digite o segundo número">
 
-    <button onclick="calculate()">
-        Calcular
-    </button>
+    <button onclick="calculate()">Calcular</button>
 
-    <h2 id="result"></h2>
+    <p id="result" class="result"></p>
 
-    <button onclick="loadHistory()">
-        Atualizar Histórico
-    </button>
+    <button onclick="loadHistory()">Atualizar Histórico</button>
 
     <ul id="history"></ul>
 
+    <button onclick="logout()">
+    Sair
+</button>
+
 </div>
+
+<script src="../js/s.js"></script>
 
 <script src="../js/s.js"></script>
 

@@ -1,164 +1,166 @@
-const API = 'http://localhost:3000';
+const API = "http://localhost:3000";
 
 async function login() {
-
-    const username =
-        document.getElementById('username').value;
-
-    const password =
-        document.getElementById('password').value;
+    const email = document.getElementById("username").value;
+    const senha = document.getElementById("password").value;
 
     try {
-
         const response = await fetch(`${API}/login`, {
-
-            method: 'POST',
-
+            method: "POST",
             headers: {
-                'Content-Type': 'application/json'
+                "Content-Type": "application/json"
             },
-
             body: JSON.stringify({
-                username,
-                password
+                email,
+                senha
             })
         });
 
         const data = await response.json();
 
-        console.log(data);
-
         if (response.ok && data.token) {
+            localStorage.setItem("token", data.token);
 
-            localStorage.setItem(
-                'token',
-                data.token
-            );
-
-            alert('Login realizado');
-
-            window.location.href = 'index.html';
-
+            alert("Login realizado com sucesso!");
+            window.location.href = "index.html";
         } else {
-
-            alert(data.error || 'Erro no login');
+            alert(data.erro || "Erro no login");
         }
 
     } catch (err) {
-
         console.log(err);
+        alert("Erro ao conectar com servidor");
+    }
+}
 
-        alert('Erro ao conectar com servidor');
+async function register() {
+    const nome = document.getElementById("registerUsername").value;
+    const email = document.getElementById("registerEmail").value;
+    const senha = document.getElementById("registerPassword").value;
+
+    try {
+        const response = await fetch(`${API}/cadastro`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                nome,
+                email,
+                senha
+            })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            alert("Usuário criado com sucesso!");
+            window.location.href = "login.html";
+        } else {
+            alert(data.erro || "Erro ao cadastrar");
+        }
+
+    } catch (err) {
+        console.log(err);
+        alert("Erro ao conectar com servidor");
     }
 }
 
 async function calculate() {
+    const numero1 = Number(document.getElementById("a").value);
+    const numero2 = Number(document.getElementById("b").value);
+    const operador = document.getElementById("operation").value;
+    const token = localStorage.getItem("token");
 
-    const a = Number(
-        document.getElementById('a').value
-    );
+    if (!token) {
+        alert("Você precisa fazer login primeiro.");
+        window.location.href = "login.html";
+        return;
+    }
 
-    const b = Number(
-        document.getElementById('b').value
-    );
+    try {
+        const response = await fetch(`${API}/calcular`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify({
+                numero1,
+                numero2,
+                operador
+            })
+        });
 
-    const operation =
-        document.getElementById('operation').value;
+        const data = await response.json();
 
-    const token =
-        localStorage.getItem('token');
+        if (response.ok) {
+            document.getElementById("result").innerText =
+                `Resultado: ${data.calculo.resultado}`;
 
-    const response = await fetch(`${API}/calculate`, {
+            loadHistory();
+        } else {
+            alert(data.erro || "Erro ao calcular");
+        }
 
-        method: 'POST',
-
-        headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`
-        },
-
-        body: JSON.stringify({
-            a,
-            b,
-            operation
-        })
-    });
-
-    const data = await response.json();
-
-    document.getElementById('result').innerText =
-        `Resultado: ${data.result}`;
-
-    loadHistory();
+    } catch (err) {
+        console.log(err);
+        alert("Erro ao conectar com servidor");
+    }
 }
 
 async function loadHistory() {
+    const token = localStorage.getItem("token");
 
-    const token =
-        localStorage.getItem('token');
+    if (!token) {
+        return;
+    }
 
-    const response = await fetch(`${API}/history`, {
-
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-    });
-
-    const data = await response.json();
-
-    const history =
-        document.getElementById('history');
-
-    history.innerHTML = '';
-
-    data.forEach(item => {
-
-        const li = document.createElement('li');
-
-        li.innerText =
-            `${item.expression} = ${item.result}
-             (${new Date(item.created_at)
-                .toLocaleString()})`;
-
-        history.appendChild(li);
-    });
-}
-
-async function register() {
-
-    const username =
-        document.getElementById('registerUsername').value;
-
-    const password =
-        document.getElementById('registerPassword').value;
-
-    const response = await fetch(
-        'http://localhost:3000/register',
-        {
-
-            method: 'POST',
-
+    try {
+        const response = await fetch(`${API}/historico`, {
+            method: "GET",
             headers: {
-                'Content-Type': 'application/json'
-            },
+                Authorization: `Bearer ${token}`
+            }
+        });
 
-            body: JSON.stringify({
-                username,
-                password
-            })
+        const data = await response.json();
+
+        const history = document.getElementById("history");
+
+        if (!history) {
+            return;
         }
-    );
 
-    const data = await response.json();
+        history.innerHTML = "";
 
-    if (response.ok) {
+        if (!response.ok) {
+            history.innerHTML = "<li>Erro ao carregar histórico.</li>";
+            return;
+        }
 
-        alert('Usuário criado com sucesso');
+        data.historico.forEach(item => {
+            const li = document.createElement("li");
 
-        window.location.href = 'login.html';
+            li.innerText =
+                `${item.operacao} = ${item.resultado} (${new Date(item.criado_em).toLocaleString()})`;
 
-    } else {
+            history.appendChild(li);
+        });
 
-        alert(data.error);
+    } catch (err) {
+        console.log(err);
+        alert("Erro ao carregar histórico");
     }
 }
+
+function logout() {
+    localStorage.removeItem("token");
+    window.location.href = "login.html";
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    if (document.getElementById("history")) {
+        loadHistory();
+    }
+});

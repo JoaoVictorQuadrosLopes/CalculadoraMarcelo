@@ -1,46 +1,52 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro</title>
+    <title>Cadastro</title>
 
     <link rel="stylesheet" href="../css/s.css">
 </head>
 
 <body>
 
-    <div class="container">
+<div class="container">
 
-        <h1>Criar Conta</h1>
+    <h2>Cadastro</h2>
 
-        <input
-            type="text"
-            id="registerUsername"
-            placeholder="Usuário"
-        >
+    <input
+        type="text"
+        id="registerUsername"
+        placeholder="Nome"
+    >
 
-        <input
-            type="password"
-            id="registerPassword"
-            placeholder="Senha"
-        >
+    <input
+        type="email"
+        id="registerEmail"
+        placeholder="Email"
+    >
 
-        <button onclick="register()">
-            Registrar
-        </button>
+    <input
+        type="password"
+        id="registerPassword"
+        placeholder="Senha"
+    >
 
-        <p>
-            Já possui conta?
-            <a href="login.html">
-                Fazer Login
-            </a>
-        </p>
+    <p>
+        Já possui conta?
+        <a href="login.html">
+            Entrar
+        </a>
+    </p>
 
-    </div>
+    <button onclick="register()">
+        Cadastrar
+    </button>
 
-    <script src="../js/s.js"></script>
+</div>
+
+<script src="../js/s.js"></script>
 
 </body>
 </html>
