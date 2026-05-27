@@ -154,6 +154,29 @@ async function loadHistory() {
     }
 }
 
+function toggleSecondInput() {
+
+    const operation =
+        document.getElementById('operation').value;
+
+    const secondInput =
+        document.getElementById(
+            'secondInputContainer'
+        );
+
+    if (
+        operation === 'sqrt' ||
+        operation === 'log'
+    ) {
+
+        secondInput.style.display = 'none';
+
+    } else {
+
+        secondInput.style.display = 'block';
+    }
+}
+
 function logout() {
     localStorage.removeItem("token");
     window.location.href = "login.html";

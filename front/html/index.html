@@ -2,44 +2,94 @@
 <html>
 <head>
     <title>Calculadora</title>
-    <link rel="stylesheet" href="../css/s.css">
+
+    <link
+        rel="stylesheet"
+        href="../css/s.css"
+    >
 </head>
+
 <body>
 
 <div class="container">
 
     <h2>Calculadora</h2>
+
     <h1>99%</h1>
 
     <label>Primeiro número</label>
-    <input type="number" id="a" placeholder="Digite o primeiro número">
+
+    <input
+        type="number"
+        id="a"
+        placeholder="Digite o primeiro número"
+    >
 
     <label>Operação</label>
-    <select id="operation">
-        <option value="+">Somar (+)</option>
-        <option value="-">Subtrair (-)</option>
-        <option value="*">Multiplicar (*)</option>
-        <option value="/">Dividir (/)</option>
+
+    <select
+        id="operation"
+        onchange="toggleSecondInput()"
+    >
+
+        <option value="+">
+            Somar (+)
+        </option>
+
+        <option value="-">
+            Subtrair (-)
+        </option>
+
+        <option value="*">
+            Multiplicar (*)
+        </option>
+
+        <option value="/">
+            Dividir (/)
+        </option>
+
+        <option value="sqrt">
+            Raiz Quadrada (√)
+        </option>
+
+        <option value="log">
+            Logaritmo Base 10 (log)
+        </option>
+
     </select>
 
-    <label>Segundo número</label>
-    <input type="number" id="b" placeholder="Digite o segundo número">
+    <div id="secondInputContainer">
 
-    <button onclick="calculate()">Calcular</button>
+        <label>Segundo número</label>
 
-    <p id="result" class="result"></p>
+        <input
+            type="number"
+            id="b"
+            placeholder="Digite o segundo número"
+        >
 
-    <button onclick="loadHistory()">Atualizar Histórico</button>
+    </div>
+
+    <button onclick="calculate()">
+        Calcular
+    </button>
+
+    <p
+        id="result"
+        class="result"
+    ></p>
+
+    <button onclick="loadHistory()">
+        Atualizar Histórico
+    </button>
 
     <ul id="history"></ul>
 
     <button onclick="logout()">
-    Sair
-</button>
+        Sair
+    </button>
 
 </div>
-
-<script src="../js/s.js"></script>
 
 <script src="../js/s.js"></script>
 
