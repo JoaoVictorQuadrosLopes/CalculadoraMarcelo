@@ -24,8 +24,10 @@ function calcularResultado(
                 'Divisão por zero'
             );
         }
-
         return numero1 / numero2;
+        
+    case '^':
+        return Math.pow(numero1, numero2);
 
     case 'sqrt':
 
@@ -36,6 +38,23 @@ function calcularResultado(
         }
 
         return Math.sqrt(numero1);
+    
+    case "root":
+        if (numero === 0) {
+            throw new Error(
+                'Índice da raiz não pode ser zero'
+            );
+        }
+        if (numero1 < 0 && numero2 % 2 === 0) {
+            throw new Error(
+                'Raiz de número negativo'
+            );
+        }
+        if (numero1 < 0) {
+            return -Math.pow(Math.abs(numero1), 1 / numero2);
+        }
+        return Math.pow(numero1, 1 / numero2);
+
 
     default:
 
