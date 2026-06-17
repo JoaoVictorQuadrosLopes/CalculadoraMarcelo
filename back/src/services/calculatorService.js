@@ -37,16 +37,6 @@ function calcularResultado(
 
         return Math.sqrt(numero1);
 
-    case 'log':
-
-        if (numero1 <= 0) {
-            throw new Error(
-                'Log inválido'
-            );
-        }
-
-        return Math.log10(numero1);
-
     default:
 
         throw new Error(
