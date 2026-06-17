@@ -99,6 +99,7 @@ async function calculate() {
                 `Resultado: ${data.calculo.resultado}`;
 
             loadHistory();
+            loadRanking();
         } else {
             alert(data.erro || "Erro ao calcular");
         }
@@ -154,6 +155,56 @@ async function loadHistory() {
     }
 }
 
+async function loadRanking() {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+        return;
+    }
+
+    try {
+        const response = await fetch(`${API}/ranking-operacoes`, {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+
+        const data = await response.json();
+
+        const ranking = document.getElementById("ranking");
+
+        if (!ranking) {
+            return;
+        }
+
+        ranking.innerHTML = "";
+
+        if (!response.ok) {
+            ranking.innerHTML = "<li>Erro ao carregar ranking.</li>";
+            return;
+        }
+
+        if (data.ranking.length === 0) {
+            ranking.innerHTML = "<li>Nenhuma operacao realizada ainda.</li>";
+            return;
+        }
+
+        data.ranking.forEach((item, index) => {
+            const li = document.createElement("li");
+
+            li.innerText =
+                `${index + 1}. ${item.tipo_operacao}: ${item.total} vez(es)`;
+
+            ranking.appendChild(li);
+        });
+
+    } catch (err) {
+        console.log(err);
+        alert("Erro ao carregar ranking");
+    }
+}
+
 function toggleSecondInput() {
 
     const operation =
@@ -185,5 +236,6 @@ function logout() {
 document.addEventListener("DOMContentLoaded", () => {
     if (document.getElementById("history")) {
         loadHistory();
+        loadRanking();
     }
 });
