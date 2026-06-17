@@ -67,6 +67,7 @@ async function register() {
 }
 
 async function calculate() {
+    const expressao = document.getElementById("expression").value.trim();
     const numero1 = Number(document.getElementById("a").value);
     const numero2 = Number(document.getElementById("b").value);
     const operador = document.getElementById("operation").value;
@@ -79,17 +80,21 @@ async function calculate() {
     }
 
     try {
+        const body = expressao
+            ? { expressao }
+            : {
+                numero1,
+                numero2,
+                operador
+            };
+
         const response = await fetch(`${API}/calcular`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${token}`
             },
-            body: JSON.stringify({
-                numero1,
-                numero2,
-                operador
-            })
+            body: JSON.stringify(body)
         });
 
         const data = await response.json();

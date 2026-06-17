@@ -9,10 +9,31 @@ async function calcular(
     try {
 
         const {
+            expressao,
             numero1,
             numero2,
             operador
         } = request.body;
+
+        if (expressao) {
+            const resultado =
+                calculatorService.calcularExpressao(
+                    expressao
+                );
+
+            const historico =
+                await calculatorService.salvarCalculo(
+                    request.usuario.id,
+                    expressao,
+                    resultado
+                );
+
+            return reply.send({
+                mensagem:
+                    'CÃ¡lculo realizado',
+                calculo: historico
+            });
+        }
 
         const n1 = Number(numero1);
         const n2 = Number(numero2);
