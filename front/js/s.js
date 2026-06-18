@@ -37,6 +37,10 @@ async function register() {
     const nome = document.getElementById("registerUsername").value;
     const email = document.getElementById("registerEmail").value;
     const senha = document.getElementById("registerPassword").value;
+    const instituicao = document.getElementById("registerInstituicao").value;
+    const escolaridade = document.getElementById("registerEscolaridade").value;
+    const endereco = document.getElementById("registerEndereco").value;
+    const tipo_usuario = document.getElementById("registerTipo").value;
 
     try {
         const response = await fetch(`${API}/cadastro`, {
@@ -47,7 +51,11 @@ async function register() {
             body: JSON.stringify({
                 nome,
                 email,
-                senha
+                senha,
+                instituicao,
+                escolaridade,
+                endereco,
+                tipo_usuario
             })
         });
 
@@ -220,10 +228,7 @@ function toggleSecondInput() {
             'secondInputContainer'
         );
 
-    if (
-        operation === 'sqrt' ||
-        operation === 'log'
-    ) {
+    if (operation === 'sqrt') {
 
         secondInput.style.display = 'none';
 

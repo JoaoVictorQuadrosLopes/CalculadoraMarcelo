@@ -8,6 +8,11 @@ async function calcular(
 
     try {
 
+        await calculatorService.verificarLimiteGratuito(
+            request.usuario.id,
+            request.usuario.tipo_usuario
+        );
+
         const {
             expressao,
             numero1,
@@ -29,8 +34,7 @@ async function calcular(
                 );
 
             return reply.send({
-                mensagem:
-                    'CÃ¡lculo realizado',
+                mensagem: 'Cálculo realizado',
                 calculo: historico
             });
         }
@@ -47,20 +51,11 @@ async function calcular(
 
         let operacao;
 
-            if (operador === 'sqrt') {
-
-
-                operacao = `√(${n1})`;
-
-            } else if (operador === 'log') {
-
-                operacao = `log(${n1})`;
-
-            } else {
-
-                operacao =
-                `${n1} ${operador} ${n2}`;
-            }
+        if (operador === 'sqrt') {
+            operacao = `√(${n1})`;
+        } else {
+            operacao = `${n1} ${operador} ${n2}`;
+        }
 
         const historico =
             await calculatorService.salvarCalculo(
@@ -70,8 +65,7 @@ async function calcular(
             );
 
         reply.send({
-            mensagem:
-                'Cálculo realizado',
+            mensagem: 'Cálculo realizado',
             calculo: historico
         });
 

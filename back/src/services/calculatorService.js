@@ -230,6 +230,26 @@ function calcularResultado(
 }
 }
 
+async function verificarLimiteGratuito(usuarioId, tipoUsuario) {
+
+    if (tipoUsuario === 'pago') {
+        return;
+    }
+
+    const resultado = await pool.query(
+        `SELECT COUNT(*) AS total FROM historico WHERE usuario_id = $1`,
+        [usuarioId]
+    );
+
+    const total = parseInt(resultado.rows[0].total);
+
+    if (total >= 10) {
+        throw new Error(
+            'Limite de 10 cálculos atingido. Faça upgrade para conta paga.'
+        );
+    }
+}
+
 async function salvarCalculo(
     usuarioId,
     operacao,
@@ -266,5 +286,6 @@ async function salvarCalculo(
 module.exports = {
     calcularExpressao,
     calcularResultado,
-    salvarCalculo
+    salvarCalculo,
+    verificarLimiteGratuito
 };
